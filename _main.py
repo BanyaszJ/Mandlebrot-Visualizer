@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 import pygame
 pygame.init()
 
@@ -43,11 +44,54 @@ class Screen:
     def tick(self, spd = 0):
         self.clock.tick(spd)
 
+'''class Cmplx:
+    def __init__(self, r, j):
+        self.r = r
+        self.j = j
+        
+    def __mul__(self, other):
+        return self.r*other.r + self.r*other.j + self.j*other.r + self.j*other.j
+        # TODO: implement imaginary component calculation
+        
+        
+a = Cmplx(1, 2)
+b = Cmplx(3, 4)
+
+print(a*b)
+
+# (1,2)(3,4)
+'''
+
+
+class ABC_Mandlebrot(ABC):
+
+    # z1 = z0*z0 + c
+    # z2 = z1*z1 + c
+    # ...
+    # zn = zn-1*zn-1 + c
+    @abstractmethod
+    def init_z(self, r, j): pass
+
+    @abstractmethod
+    def init_c(self, r, j): pass
+
+    @abstractmethod
+    def init_iter_depth(self, depth): pass
+
+    @abstractmethod
+    def calculate_next(self): pass
+
+
+class Mandlebrot(ABC_Mandlebrot):
+    def __init__(self) -> None:
+        pass
+
 
 class Main:
     def __init__(self):
         self.font_size = 0
         self.screen = Screen(title="Mandlebrot fun", w = 1000, h = 1000)
+        self.mandlebrot = Mandlebrot()
 
     def mainloop(self) -> None:
         while not self.screen.check_quit_pressed():            
